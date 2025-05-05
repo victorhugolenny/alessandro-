@@ -1,0 +1,170 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Churrasco {
+    private String nomeEvento;
+    private String dataEvento; // Formato: "dd/MM/yyyy"
+    private int numeroParticipantes;
+    private double precoQuiloCarne;
+    private double precoQuiloLinguiça;
+    private double precoLitroRefrigerante;
+    private double precoLimpeza;
+
+    // Construtor
+    public Churrasco() {
+    }
+
+    // Métodos get e set
+    public String getNomeEvento() {
+        return nomeEvento;
+    }
+
+    public void setNomeEvento(String nomeEvento) {
+        this.nomeEvento = nomeEvento;
+    }
+
+    public String getDataEvento() {
+        return dataEvento;
+    }
+
+    public void setDataEvento(String dataEvento) {
+        this.dataEvento = dataEvento;
+    }
+
+    public int getNumeroParticipantes() {
+        return numeroParticipantes;
+    }
+
+    public void setNumeroParticipantes(int numeroParticipantes) {
+        this.numeroParticipantes = numeroParticipantes;
+    }
+
+    public double getPrecoQuiloCarne() {
+        return precoQuiloCarne;
+    }
+
+    public void setPrecoQuiloCarne(double precoQuiloCarne) {
+        this.precoQuiloCarne = precoQuiloCarne;
+    }
+
+    public double getPrecoQuiloLinguiça() {
+        return precoQuiloLinguiça;
+    }
+
+    public void setPrecoQuiloLinguiça(double precoQuiloLinguiça) {
+        this.precoQuiloLinguiça = precoQuiloLinguiça;
+    }
+
+    public double getPrecoLitroRefrigerante() {
+        return precoLitroRefrigerante;
+    }
+
+    public void setPrecoLitroRefrigerante(double precoLitroRefrigerante) {
+        this.precoLitroRefrigerante = precoLitroRefrigerante;
+    }
+
+    public double getPrecoLimpeza() {
+        return precoLimpeza;
+    }
+
+    public void setPrecoLimpeza(double precoLimpeza) {
+        this.precoLimpeza = precoLimpeza;
+    }
+
+    /**
+     * Calcula a quantidade de carne bovina necessária
+     * baseado no número de participantes (0,3Kg por participante)
+     */
+    public double getQuantidadeCarne() {
+        return numeroParticipantes * 0.3;
+    }
+
+    /**
+     * Calcula a quantidade de linguiça necessária
+     * baseado no número de participantes (0,1Kg por participante)
+     */
+    public double getQuantidadeLinguiça() {
+        return numeroParticipantes * 0.1;
+    }
+
+    /**
+     * Calcula a quantidade de refrigerante necessário
+     * baseado no número de participantes (1 litro por participante)
+     */
+    public double getQuantidadeRefrigerante() {
+        return numeroParticipantes * 1.0;
+    }
+
+    /**
+     * Calcula a quantidade de pão necessária
+     * baseado no número de participantes (0,15Kg por participante)
+     */
+    public double getQuantidadePao() {
+        return numeroParticipantes * 0.15;
+    }
+
+    /**
+     * Calcula a quantidade de tomate necessária
+     * baseado no número de participantes (0,05Kg por participante)
+     */
+    public double getQuantidadeTomate() {
+        return numeroParticipantes * 0.05;
+    }
+
+    /**
+     * Calcula a quantidade de cebola necessária
+     * baseado no número de participantes (0,01Kg por participante)
+     */
+    public double getQuantidadeCebola() {
+        return numeroParticipantes * 0.01;
+    }
+
+    /**
+     * Retorna a lista de compras com as quantidades de todos os itens
+     * a serem adquiridos para o evento
+     */
+    public List<String> getListaCompras() {
+        List<String> lista = new ArrayList<>();
+        lista.add("Carne: " + String.format("%.2f", getQuantidadeCarne()) + " Kg");
+        lista.add("Linguiça: " + String.format("%.2f", getQuantidadeLinguiça()) + " Kg");
+        lista.add("Refrigerante: " + String.format("%.2f", getQuantidadeRefrigerante()) + " L");
+        lista.add("Pão: " + String.format("%.2f", getQuantidadePao()) + " Kg");
+        lista.add("Tomate: " + String.format("%.2f", getQuantidadeTomate()) + " Kg");
+        lista.add("Cebola: " + String.format("%.2f", getQuantidadeCebola()) + " Kg");
+        return lista;
+    }
+
+    /**
+     * Calcula o custo total do evento, considerando:
+     * - Quantidade dos produtos (carne, linguiça, refrigerante)
+     * - Preço dos produtos
+     * - Quantidade de participantes
+     * - Acréscimo de 10% referente à margem de segurança (ex: pedir 1kg para receber 1.1kg)
+     * - Custo da limpeza pós-evento
+     * - Acréscimo de 18% para custos extras (pão, tomate, cebola, sal, detergente, papel, etc.)
+     */
+    private double calcularCustoTotal() {
+        double custoCarne = getQuantidadeCarne() * precoQuiloCarne * 1.1; // Margem de segurança
+        double custoLinguiça = getQuantidadeLinguiça() * precoQuiloLinguiça * 1.1; // Margem de segurança
+        double custoRefrigerante = getQuantidadeRefrigerante() * precoLitroRefrigerante;
+        double custoLimpeza = precoLimpeza;
+        double custoTotal = (custoCarne + custoLinguiça + custoRefrigerante + custoLimpeza) * 1.18; // 18% extras
+        return custoTotal;
+    }
+
+    /**
+     * Retorna o custo total do churrasco
+     */
+    public double getCustoTotal() {
+        return calcularCustoTotal();
+    }
+
+    /**
+     * Calcula e retorna o custo por participante,
+     * arredondado para cima
+     */
+    public double getCustoPorParticipante() {
+        double custoTotal = calcularCustoTotal();
+        return Math.ceil(custoTotal / numeroParticipantes);
+    }
+}
